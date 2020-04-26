@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WordCounter 
 {
@@ -11,7 +10,10 @@ namespace WordCounter
 
         public async IAsyncEnumerable<KeyValuePair<string, int>> GetWordCountUpdates(string[] words)
         {
-            yield break;
+            foreach (var word in words)
+            {
+                yield return new KeyValuePair<string, int>(word, 0);
+            }
         }
     }
 }
