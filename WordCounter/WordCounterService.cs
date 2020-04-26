@@ -9,9 +9,9 @@ namespace WordCounter
         {
         }
 
-        public IAsyncEnumerable<KeyValuePair<string, int>> GetWordCountUpdates(string[] words)
+        public async IAsyncEnumerable<KeyValuePair<string, int>> GetWordCountUpdates(string[] words)
         {
-            throw new NotImplementedException();
+            yield break;
         }
     }
 }
