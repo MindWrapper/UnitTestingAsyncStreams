@@ -11,42 +11,53 @@ namespace KeywordsCounter.Tests
     [TestFixture]
     public class WordCounterServiceTests
     {
+        Mock<IDataSource> m_DataSource;
+        WordCounterService m_WordCounterService;
+        static string[] s_NoData = new string[] { };
+
+        [SetUp]
+        public void BeforeEachTest()
+        {
+            m_DataSource = new Mock<IDataSource>();
+            m_WordCounterService = new WordCounterService(m_DataSource.Object);
+            m_WordCounterService = new WordCounterService(m_DataSource.Object);
+        }
+
         [Test]
         public async Task GetWordCountUpdates_NoWordsToCount_ReturnsEmptyResult()
         {
-            var dataSource = new Mock<IDataSource>();
-            var wordsToCount = new string[] { };
-            var streamData = new string[] { };
-            dataSource.Setup(x => x.GetData()).Returns(streamData.ToAsyncEnumerable());
-            var service = new WordCounterService(dataSource.Object);
-            var result = new ConcurrentBag<KeyValuePair<string, int>>();
-
-            await foreach (var update in service.GetWordCountUpdates(wordsToCount))
-            {
-                result.Add(update);
-            }
+            SetupDataSource(s_NoData);
            
-            Assert.That(result.IsEmpty);
+            var result = await GetWordCountUpdate(s_NoData);
+
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
         public async Task GetWordCountUpdates_NoWordsDataInStream_ReturnsZeroForEachWordToCount()
         {
-            var dataSource = new Mock<IDataSource>();
-            var wordsToCount = new[] { "foo", "bar" };
-            var streamData = new string[] { };
-            dataSource.Setup(x => x.GetData()).Returns(streamData.ToAsyncEnumerable());
-            var service = new WordCounterService(dataSource.Object);
-            var result = new ConcurrentBag<KeyValuePair<string, int>>();
+            SetupDataSource(s_NoData);
 
-            await foreach (var update in service.GetWordCountUpdates(wordsToCount))
-            {
-                result.Add(update);
-            }
+            var result = await GetWordCountUpdate("foo", "bar");
 
             Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result.First().Value, Is.EqualTo(0));
             Assert.That(result.Last().Value, Is.EqualTo(0));
+        }
+
+        void SetupDataSource(params string[] data)
+        {
+            m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());
+        }
+
+        async Task<List<KeyValuePair<string, int>>> GetWordCountUpdate(params string[] wordsToCount)
+        {
+            var result = new ConcurrentBag<KeyValuePair<string, int>>();
+            await foreach (var update in m_WordCounterService.GetWordCountUpdates(wordsToCount))
+            {
+                result.Add(update);
+            }
+            return result.ToList();
         }
     }
 }
