@@ -53,6 +53,7 @@ namespace WordCounter.Tests
 
         [TestCase("foo foo", "foo", 2)]
         [TestCase("foo.foo", "foo", 2)]
+        [TestCase("foo;foo", "foo", 2)]
         public void GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates(string streamContext, string word, int expectedOccurrencesCount)
         {
             SetupDataSource(streamContext);
