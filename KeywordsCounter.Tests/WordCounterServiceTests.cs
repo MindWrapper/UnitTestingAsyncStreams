@@ -62,9 +62,19 @@ namespace WordCounter.Tests
 
             Assert.That(result.OccurrencesCount, Is.EqualTo(expectedOccurrencesCount));
         }
+        
+        [Test]
+        public async Task GetWordCountUpdates_TwoWordMatch_ReturnsExpectedUpdates()
+        {
+            SetupDataSource("foo", "bar");
 
-        // TODO: different separators
-        // TODO: different keywords
+            var result = await GetWordCountUpdate("foo", "bar");
+
+            result.Sort((x, y) => x.Word.CompareTo(y.Word));
+            Assert.That(result.Select(x => x.Word), Is.EqualTo(new[] { "bar", "foo" }));
+            Assert.That(result.Select(x => x.OccurrencesCount), Is.EqualTo(new[] { 1, 1 }));
+        }
+
         void SetupDataSource(params string[] data)
         {
             m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());
