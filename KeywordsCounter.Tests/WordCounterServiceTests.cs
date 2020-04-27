@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using WordCounter;
 
-namespace KeywordsCounter.Tests
+namespace WordCounter.Tests
 {
     [TestFixture]
     public class WordCounterServiceTests
@@ -19,7 +18,6 @@ namespace KeywordsCounter.Tests
         public void BeforeEachTest()
         {
             m_DataSource = new Mock<IDataSource>();
-            m_WordCounterService = new WordCounterService(m_DataSource.Object);
             m_WordCounterService = new WordCounterService(m_DataSource.Object);
         }
 
