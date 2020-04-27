@@ -18,6 +18,7 @@ namespace WordCounter
         {
             await foreach (var text in m_DataSource.GetData())
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 foreach (var word in words)
                 {
                     var occurrencesCount = text.Split(' ', '.', ';').Count(x => x.Equals(word));
