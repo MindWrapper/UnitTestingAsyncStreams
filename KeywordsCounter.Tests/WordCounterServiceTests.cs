@@ -75,6 +75,19 @@ namespace WordCounter.Tests
             Assert.That(result.Select(x => x.OccurrencesCount), Is.EqualTo(new[] { 1, 1 }));
         }
 
+        [Test]
+        public async Task GetWordCountUpdates_MultipleWordMatchOnMultipleLines_ReturnsExpectedUpdates()
+        {
+            SetupDataSource("foo", "bar", "foo;bar;baz foo", "baz;foo;bar");
+
+            var result = await GetWordCountUpdate("foo", "bar");
+
+            var sumFoo = result.Where(x => x.Word == "foo").Sum(x => x.OccurrencesCount);
+            var sumBar = result.Where(x => x.Word == "bar").Sum(x => x.OccurrencesCount);
+            Assert.That(sumFoo, Is.EqualTo(4));
+            Assert.That(sumBar, Is.EqualTo(3));
+        }
+
         void SetupDataSource(params string[] data)
         {
             m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());
