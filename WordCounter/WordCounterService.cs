@@ -8,11 +8,11 @@ namespace WordCounter
         {
         }
 
-        public async IAsyncEnumerable<KeyValuePair<string, int>> GetWordCountUpdates(string[] words)
+        public async IAsyncEnumerable<WordCountUpdate> GetWordCountUpdates(string[] words)
         {
             foreach (var word in words)
             {
-                yield return new KeyValuePair<string, int>(word, 0);
+                yield return new WordCountUpdate(word, 0);
             }
         }
     }

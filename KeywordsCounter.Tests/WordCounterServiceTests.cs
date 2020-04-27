@@ -41,18 +41,18 @@ namespace KeywordsCounter.Tests
             var result = await GetWordCountUpdate("foo", "bar");
 
             Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result.First().Value, Is.EqualTo(0));
-            Assert.That(result.Last().Value, Is.EqualTo(0));
+            Assert.That(result.First().OccurrencesCount, Is.EqualTo(0));
+            Assert.That(result.Last().OccurrencesCount, Is.EqualTo(0));
         }
-
+        // TODO: check if word set correctly
         void SetupDataSource(params string[] data)
         {
             m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());
         }
 
-        async Task<List<KeyValuePair<string, int>>> GetWordCountUpdate(params string[] wordsToCount)
+        async Task<List<WordCountUpdate>> GetWordCountUpdate(params string[] wordsToCount)
         {
-            var result = new ConcurrentBag<KeyValuePair<string, int>>();
+            var result = new ConcurrentBag<WordCountUpdate>();
             await foreach (var update in m_WordCounterService.GetWordCountUpdates(wordsToCount))
             {
                 result.Add(update);
