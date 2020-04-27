@@ -51,6 +51,16 @@ namespace WordCounter.Tests
             Assert.That(result.OccurrencesCount, Is.EqualTo(1));
         }
 
+        [Test]
+        public async Task GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates()
+        {
+            SetupDataSource("foo foo");
+
+            var result = (await GetWordCountUpdate("foo")).First();
+
+            Assert.That(result.OccurrencesCount, Is.EqualTo(2));
+        }
+  
         void SetupDataSource(params string[] data)
         {
             m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());
