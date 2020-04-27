@@ -32,25 +32,13 @@ namespace WordCounter.Tests
         }
 
         [Test]
-        public async Task GetWordCountUpdates_NoWordsDataInStream_ReturnsZeroForEachWordToCount()
+        public async Task GetWordCountUpdates_NoWordsDataInStream_EmptyResult()
         {
             SetupDataSource(s_NoData);
 
             var result = await GetWordCountUpdate("foo", "bar");
 
-            Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result.First().OccurrencesCount, Is.EqualTo(0));
-            Assert.That(result.Last().OccurrencesCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public async Task GetWordCountUpdates_NoWordsDataInStream_ReturnsExpectedWords()
-        {
-            SetupDataSource(s_NoData);
-
-            var result = await GetWordCountUpdate("foo", "bar");
-
-            Assert.That(result.Select(x => x.Word), Is.EquivalentTo(new [] {"foo", "bar"}));
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
@@ -61,7 +49,7 @@ namespace WordCounter.Tests
             var result = (await GetWordCountUpdate("foo")).First();
 
             Assert.That(result.OccurrencesCount, Is.EqualTo(1));
-;        }
+        }
 
         void SetupDataSource(params string[] data)
         {

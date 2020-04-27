@@ -4,15 +4,24 @@ namespace WordCounter
 {
     public class WordCounterService
     {
+        readonly IDataSource m_DataSource;
+
         public WordCounterService(IDataSource dataSource)
         {
+            m_DataSource = dataSource;
         }
 
         public async IAsyncEnumerable<WordCountUpdate> GetWordCountUpdates(string[] words)
         {
-            foreach (var word in words)
+            await foreach (var text in m_DataSource.GetData())
             {
-                yield return new WordCountUpdate(word, 0);
+                foreach (var word in words)
+                {
+                    if (text.Contains(word))
+                    {
+                        yield return new WordCountUpdate(word, 1);
+                    }
+                }
             }
         }
     }
