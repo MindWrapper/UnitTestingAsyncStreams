@@ -60,6 +60,9 @@ namespace WordCounter.Tests
 
             Assert.That(result.OccurrencesCount, Is.EqualTo(2));
         }
+
+        // TODO: different separators
+        // TODO: different keywords
   
         void SetupDataSource(params string[] data)
         {

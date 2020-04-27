@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace WordCounter 
 {
@@ -17,9 +18,10 @@ namespace WordCounter
             {
                 foreach (var word in words)
                 {
-                    if (text.Contains(word))
+                    var occurrencesCount = text.Split(' ').Count(x => x.Equals(word));
+                    if (occurrencesCount > 0)
                     {
-                        yield return new WordCountUpdate(word, 1);
+                        yield return new WordCountUpdate(word, occurrencesCount);
                     }
                 }
             }
