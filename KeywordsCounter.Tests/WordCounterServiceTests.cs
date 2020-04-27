@@ -42,7 +42,17 @@ namespace WordCounter.Tests
             Assert.That(result.First().OccurrencesCount, Is.EqualTo(0));
             Assert.That(result.Last().OccurrencesCount, Is.EqualTo(0));
         }
-        // TODO: check if word set correctly
+
+        [Test]
+        public async Task GetWordCountUpdates_NoWordsDataInStream_ReturnsExpectedWords()
+        {
+            SetupDataSource(s_NoData);
+
+            var result = await GetWordCountUpdate("foo", "bar");
+
+            Assert.That(result.Select(x => x.Word), Is.EquivalentTo(new [] {"foo", "bar"}));
+        }
+
         void SetupDataSource(params string[] data)
         {
             m_DataSource.Setup(x => x.GetData()).Returns(data.ToAsyncEnumerable());

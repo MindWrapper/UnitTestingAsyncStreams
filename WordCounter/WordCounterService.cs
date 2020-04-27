@@ -12,7 +12,7 @@ namespace WordCounter
         {
             foreach (var word in words)
             {
-                yield return new WordCountUpdate(word, 0);
+                yield return new WordCountUpdate(string.Empty, 0);
             }
         }
     }
