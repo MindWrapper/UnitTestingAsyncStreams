@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace WordCounter
             m_DataSource = dataSource;
         }
 
-        public async IAsyncEnumerable<WordCountUpdate> GetWordCountUpdates(string[] words, CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<WordCountUpdate> GetWordCountUpdates(string[] words, CancellationToken cancellationToken = default, IProgress<int> progress = default)
         {
             await foreach (var text in m_DataSource.GetData())
             {
