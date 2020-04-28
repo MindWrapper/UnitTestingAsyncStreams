@@ -19,6 +19,7 @@ namespace WordCounter
         {
             await foreach (var text in m_DataSource.GetData())
             {
+                progress.Report(1);
                 cancellationToken.ThrowIfCancellationRequested();
                 foreach (var word in words)
                 {

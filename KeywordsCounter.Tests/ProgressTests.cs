@@ -28,7 +28,7 @@ namespace KeywordsCounter.Tests
         }
 
         // exercise: if task is cancelled before reading of first element - progress is never invoked.
-
+        // exercise: progress is reported for each 10 elements in the stream
         static async IAsyncEnumerable<string> StreamData()
         {
             yield return "foo";
