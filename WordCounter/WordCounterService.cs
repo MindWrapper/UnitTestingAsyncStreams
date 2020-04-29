@@ -8,6 +8,7 @@ namespace WordCounter
     public class WordCounterService
     {
         readonly IDataSource m_DataSource;
+        const string k_Punctuation = " ,.?!;:—\"\r\n";
 
         public WordCounterService(IDataSource dataSource)
         {
@@ -22,7 +23,7 @@ namespace WordCounter
                 cancellationToken.ThrowIfCancellationRequested();
                 foreach (var word in words)
                 {
-                    var occurrencesCount = text.Split(' ', '.', ';').Count(x => x.Equals(word, StringComparison.OrdinalIgnoreCase));
+                    var occurrencesCount = text.Split(k_Punctuation.ToArray()).Count(x => x.Equals(word, StringComparison.OrdinalIgnoreCase));
                     if (occurrencesCount > 0)
                     {
                         yield return new WordCountUpdate(word, occurrencesCount);

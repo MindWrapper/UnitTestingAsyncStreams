@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
@@ -51,19 +50,21 @@ namespace WordCounter.Tests
             Assert.That(result.OccurrencesCount, Is.EqualTo(1));
         }
 
-        [TestCase("foo foo", "foo", 2)]
-        [TestCase("foo.foo", "foo", 2)]
-        [TestCase("foo;foo", "foo", 2)]
-        [TestCase("Foo", "foo", 1)]
-        public async Task GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates(string streamContext, string word, int expectedOccurrencesCount)
+        static IEnumerable<string> PunctuationTestCases()
+        {
+            return " ,.?!;:—\"\r\n".ToCharArray().Select(ch => $"foo{ch}foo");
+        }
+
+        [Test, TestCaseSource(nameof(PunctuationTestCases))]
+        public async Task GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates(string streamContext)
         {
             SetupDataSource(streamContext);
 
-            var result = await GetWordCountUpdate("foo", "bar");
+            var result = await GetWordCountUpdate("foo");
 
-            Assert.That(result.First().OccurrencesCount, Is.EqualTo(expectedOccurrencesCount));
+            Assert.That(result.First().OccurrencesCount, Is.EqualTo(2));
         }
-        
+
         [Test]
         public async Task GetWordCountUpdates_TwoWordMatch_ReturnsExpectedUpdates()
         {
@@ -71,8 +72,7 @@ namespace WordCounter.Tests
 
             var result = await GetWordCountUpdate("foo", "bar");
 
-            result.Sort((x, y) => x.Word.CompareTo(y.Word));
-            Assert.That(result.Select(x => x.Word), Is.EqualTo(new[] { "bar", "foo" }));
+            Assert.That(result.Select(x => x.Word), Is.EqualTo(new[] { "foo", "bar" }));
             Assert.That(result.Select(x => x.OccurrencesCount), Is.EqualTo(new[] { 1, 1 }));
         }
 
@@ -80,7 +80,7 @@ namespace WordCounter.Tests
         public async Task GetWordCountUpdates_MultipleWordMatchOnMultipleLines_ReturnsExpectedUpdates()
         {
             SetupDataSource("foo", "bar", "foo;bar;baz foo", "baz;foo;bar");
-
+                
             var result = await GetWordCountUpdate("foo", "bar");
 
             var sumFoo = result.Where(x => x.Word == "foo").Sum(x => x.OccurrencesCount);
@@ -101,7 +101,8 @@ namespace WordCounter.Tests
             {
                 result.Add(update);
             }
-            return result.ToList();
+
+            return result;
         }
     }
 }
