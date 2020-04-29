@@ -22,7 +22,7 @@ namespace WordCounter
                 cancellationToken.ThrowIfCancellationRequested();
                 foreach (var word in words)
                 {
-                    var occurrencesCount = text.Split(' ', '.', ';').Count(x => x.Equals(word));
+                    var occurrencesCount = text.Split(' ', '.', ';').Count(x => x.Equals(word, StringComparison.OrdinalIgnoreCase));
                     if (occurrencesCount > 0)
                     {
                         yield return new WordCountUpdate(word, occurrencesCount);
