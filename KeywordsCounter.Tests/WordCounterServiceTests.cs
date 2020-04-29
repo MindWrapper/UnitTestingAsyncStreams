@@ -54,13 +54,13 @@ namespace WordCounter.Tests
         [TestCase("foo foo", "foo", 2)]
         [TestCase("foo.foo", "foo", 2)]
         [TestCase("foo;foo", "foo", 2)]
-        public void GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates(string streamContext, string word, int expectedOccurrencesCount)
+        public async Task GetWordCountUpdates_WordMatchesTwice_ReturnsExpectedUpdates(string streamContext, string word, int expectedOccurrencesCount)
         {
             SetupDataSource(streamContext);
 
-            var result = GetWordCountUpdate(word).Result.First();
+            var result = await GetWordCountUpdate("foo", "bar");
 
-            Assert.That(result.OccurrencesCount, Is.EqualTo(expectedOccurrencesCount));
+            Assert.That(result.First().OccurrencesCount, Is.EqualTo(expectedOccurrencesCount));
         }
         
         [Test]
@@ -95,7 +95,7 @@ namespace WordCounter.Tests
 
         async Task<List<WordCountUpdate>> GetWordCountUpdate(params string[] wordsToCount)
         {
-            var result = new ConcurrentBag<WordCountUpdate>();
+            var result = new List<WordCountUpdate>();
             await foreach (var update in m_WordCounterService.GetWordCountUpdates(wordsToCount))
             {
                 result.Add(update);

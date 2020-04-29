@@ -15,6 +15,13 @@ namespace KeywordsCounter.Tests
         public async Task GetWordCountUpdates_ReportsProgressForEachElementInStream()
         {
             var dataSource = new Mock<IDataSource>();
+            static async IAsyncEnumerable<string> StreamData()
+            {
+                yield return "foo";
+                yield return "bar";
+                yield return "baz";
+                await Task.CompletedTask;
+            }
             dataSource.Setup(x => x.GetData()).Returns(StreamData);
             var service = new WordCounterService(dataSource.Object);
             var progressMock = new Mock<IProgress<int>>();
@@ -29,12 +36,6 @@ namespace KeywordsCounter.Tests
 
         // exercise: if task is cancelled before reading of first element - progress is never invoked.
         // exercise: progress is reported for each 10 elements in the stream
-        static async IAsyncEnumerable<string> StreamData()
-        {
-            yield return "foo";
-            yield return "bar";
-            yield return "baz";
-            await Task.CompletedTask;
-        }
+   
     }
 }
