@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeywordsCounter.Tests", "KeywordsCounter.Tests.csproj", "{3FBFB383-C0F6-4B1A-8C86-84C6F148B1D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordCounter.Tests", "WordCounter.Tests\WordCounter.Tests.csproj", "{3FBFB383-C0F6-4B1A-8C86-84C6F148B1D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordCounter", "..\WordCounter\WordCounter.csproj", "{2EDE25EA-DD3D-452B-9E9F-CD9A9DAB066D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordCounter", "WordCounter\WordCounter.csproj", "{2EDE25EA-DD3D-452B-9E9F-CD9A9DAB066D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordCounterConsoleApp", "..\KeywordsMonitor\WordCounterConsoleApp.csproj", "{5C0485B1-5319-4838-90CA-19D85E190A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordCounterConsoleApp", "WordCounterConsoleApp\WordCounterConsoleApp.csproj", "{5C0485B1-5319-4838-90CA-19D85E190A06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

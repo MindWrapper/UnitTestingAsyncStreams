@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WordCounter;
 
-namespace KeywordsMonitor
+namespace WordCounterConsoleApp
 {
     class Program
     {

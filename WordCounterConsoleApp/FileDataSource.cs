@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using WordCounter;
 
-namespace KeywordsMonitor
+namespace WordCounterConsoleApp
 {
     class FileDataSource : IDataSource
     {
@@ -16,7 +17,7 @@ namespace KeywordsMonitor
         public async IAsyncEnumerable<string> GetData()
         {
             using var reader = File.OpenText(m_FileName);
-            string line = null;
+            string line;
             while ((line = await reader.ReadLineAsync()) != null)
             {
                 yield return line;

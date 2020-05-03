@@ -4,9 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using WordCounter;
 
-namespace KeywordsCounter.Tests
+namespace WordCounter.Tests
 {
     [TestFixture(TestOf = typeof(WordCounterService))]
     public class ProgressTests
