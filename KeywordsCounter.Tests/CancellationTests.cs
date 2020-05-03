@@ -11,7 +11,7 @@ namespace KeywordsCounter.Tests
     public class CancellationTests
     {
         [Test]
-        public void GetWordCountUpdates_CanBeCancelledAfterAnItemInStream()
+        public void GetWordCountUpdates_CanBeCancelledAfterItemInStream()
         {
             var dataSource = new Mock<IDataSource>();
             var source = new CancellationTokenSource();

@@ -13,7 +13,7 @@ namespace KeywordsCounter.Tests
     public class ExceptionTests
     {
         [Test]
-        public void GetWordCountUpdates_DataSourceThroesAndException_RethrowsTheException()
+        public void GetWordCountUpdates_DataSourceThrowsAndException_RethrowsTheException()
         {
            
             async IAsyncEnumerable<string> StreamData()
